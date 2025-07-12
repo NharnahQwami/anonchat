@@ -1,4 +1,4 @@
-# Anonymous Chat
+# Anon-Chat
 
 A privacy-first, ephemeral chat application built with FastAPI. No registration required, messages are stored only in memory and auto-deleted after 30 minutes. Supports password-protected rooms, end-to-end encryption (E2E), and self-destructing messages.
 
@@ -22,23 +22,23 @@ A privacy-first, ephemeral chat application built with FastAPI. No registration 
 
 1. Clone the repository:
 
-    ```sh
-    git clone https://github.com/yourusername/anonchat.git
-    cd anonchat
-    ```
+   ```sh
+   git clone https://github.com/NharnahQwami/anonchat.git
+   cd anonchat
+   ```
 
 2. Create a virtual environment and activate it:
 
-    ```sh
-    python -m venv env
-    source env/bin/activate
-    ```
+   ```sh
+   python -m venv env
+   source env/bin/activate
+   ```
 
 3. Install dependencies:
 
-    ```sh
-    pip install -r requirements.txt
-    ```
+   ```sh
+   pip install -r requirements.txt
+   ```
 
 ### Running the Application
 
@@ -49,15 +49,6 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 Open [http://localhost:8000](http://localhost:8000) in your browser.
-
-### Docker (Optional)
-
-Build and run with Docker:
-
-```sh
-docker build -t anonchat .
-docker run -p 8000:8000 anonchat
-```
 
 ## Project Structure
 
