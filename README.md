@@ -1,6 +1,6 @@
-# Anonymous Chat
+# Anon-Chat
 
-A privacy-first, ephemeral chat application built with FastAPI. No registration required, messages are stored only in memory and auto-deleted after 30 minutes. Supports password-protected rooms, end-to-end encryption (E2E), and self-destructing messages.
+A privacy-first, chat application built with FastAPI. No registration required, messages are stored only in memory and auto-deleted after 30 minutes. Supports password-protected rooms, end-to-end encryption (E2E), and self-destructing messages.
 
 ## Features
 
