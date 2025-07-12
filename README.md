@@ -21,7 +21,7 @@ A privacy-first, ephemeral chat application built with FastAPI. No registration 
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/NharnahQwami/anonchat.git
+   git clone https://github.com/yourusername/anonchat.git
    cd anonchat
    ```
 
