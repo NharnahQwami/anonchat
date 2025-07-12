@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Chat - Privacy First</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .privacy-features {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #2ecc71;
+        }
+
+        .privacy-features h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .privacy-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .privacy-features li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #2c3e50;
+        }
+
+        .privacy-features li:before {
+            content: "🔒";
+            position: absolute;
+            left: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: #667eea;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result.success {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid #2ecc71;
+            color: #27ae60;
+        }
+
+        .result.error {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+        }
+
+        .share-link {
+            display: flex;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .share-link input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: #27ae60;
+        }
+
+        .stats {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .stats h3 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🔒💬</div>
+        <h1>Anonymous Chat</h1>
+        <p class="subtitle">Privacy-first, ephemeral messaging</p>
+        
+        <div class="privacy-features">
+            <h3>🛡️ Privacy Features</h3>
+            <ul>
+                <li>No registration required</li>
+                <li>Messages stored only in memory</li>
+                <li>Auto-delete after 30 minutes</li>
+                <li>End-to-end encryption ready</li>
+                <li>Self-destructing messages</li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="passwordProtected">
+                <label for="passwordProtected">Password protect this room</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="passwordGroup" style="display: none;">
+            <label for="roomPassword">Room Password:</label>
+            <input type="password" id="roomPassword" placeholder="Enter a password for your room">
+        </div>
+
+        <button class="btn" id="createRoomBtn" onclick="createRoom()">
+            Create Anonymous Chat
+        </button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Creating secure room...
+        </div>
+
+        <div class="result" id="result">
+            <div id="resultMessage"></div>
+            <div class="share-link" id="shareLink" style="display: none;">
+                <input type="text" id="roomUrl" readonly>
+                <button class="copy-btn" onclick="copyLink()">Copy</button>
+            </div>
+        </div>
+
+        <div class="stats" id="stats">
+            <h3>📊 Live Stats</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="activeRooms">0</div>
+                    <div class="stat-label">Active Rooms</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalConnections">0</div>
+                    <div class="stat-label">Users Online</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalMessages">0</div>
+                    <div class="stat-label">Messages Sent</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password field
+        document.getElementById('passwordProtected').addEventListener('change', function() {
+            const passwordGroup = document.getElementById('passwordGroup');
+            const passwordInput = document.getElementById('roomPassword');
+            
+            if (this.checked) {
+                passwordGroup.style.display = 'block';
+                passwordInput.focus();
+            } else {
+                passwordGroup.style.display = 'none';
+                passwordInput.value = '';
+            }
+        });
+
+        // Load stats on page load
+        window.addEventListener('load', function() {
+            loadStats();
+            // Refresh stats every 30 seconds
+            setInterval(loadStats, 30000);
+        });
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+                
+                document.getElementById('activeRooms').textContent = stats.active_rooms;
+                document.getElementById('totalConnections').textContent = stats.total_connections;
+                document.getElementById('totalMessages').textContent = stats.total_messages;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function createRoom() {
+            const btn = document.getElementById('createRoomBtn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const passwordProtected = document.getElementById('passwordProtected').checked;
+            const password = document.getElementById('roomPassword').value;
+
+            // Validate password if required
+            if (passwordProtected && (!password || password.length < 4)) {
+                showResult('error', 'Password must be at least 4 characters long');
+                return;
+            }
+
+            btn.disabled = true;
+            loading.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                const requestData = {};
+                if (passwordProtected && password) {
+                    requestData.password = password;
+                }
+
+                const response = await fetch('/api/create-room', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const roomUrl = window.location.origin + data.room_url;
+                    document.getElementById('roomUrl').value = roomUrl;
+                    document.getElementById('shareLink').style.display = 'flex';
+                    
+                    let message = `Room created successfully! Share this link with your contact:`;
+                    if (data.password_protected) {
+                        message += `<br><small>🔒 This room is password protected</small>`;
+                    }
+                    
+                    showResult('success', message);
+                    
+                    // Auto-copy link to clipboard
+                    copyLink();
+                    
+                    // Refresh stats
+                    loadStats();
+                } else {
+                    showResult('error', data.detail || 'Failed to create room');
+                }
+            } catch (error) {
+                showResult('error', 'Network error. Please try again.');
+                console.error('Error creating room:', error);
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+
+        function showResult(type, message) {
+            const result = document.getElementById('result');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            result.className = `result ${type}`;
+            resultMessage.innerHTML = message;
+            result.style.display = 'block';
+        }
+
+        async function copyLink() {
+            const roomUrl = document.getElementById('roomUrl');
+            const copyBtn = document.querySelector('.copy-btn');
+            
+            try {
+                await navigator.clipboard.writeText(roomUrl.value);
+                copyBtn.textContent = 'Copied!';
+                copyBtn.style.background = '#27ae60';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.style.background = '#2ecc71';
+                }, 2000);
+            } catch (error) {
+                // Fallback for browsers that don't support clipboard API
+                roomUrl.select();
+                document.execCommand('copy');
+                copyBtn.textContent = 'Copied!';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                }, 2000);
+            }
+        }
+
+        // Handle Enter key in password field
+        document.getElementById('roomPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                createRoom();
+            }
+        });
+    </script>
+</body>
+</html>
